@@ -1,0 +1,26 @@
+module top_module(
+    input [31:0] a,
+    input [31:0] b,
+    input sub,
+    output [31:0] sum
+);
+    wire cin1,cout1,cout2;
+    wire [15:0]sum1,sum2;
+    wire [31:0]sub1;
+    
+    assign cin1 = sub;
+    
+    //这部分是异或情况，sub为高时，输出为~b；sub为低时，输出为b
+    //异或：A/B/out：A为1，那么out=~B；反之当A为0，那么out=B；
+    always@(*)
+        case(sub)
+            1'b0:sub1=b;
+            1'b1:sub1=~b;
+        endcase
+            
+    
+    add16 instances1(.a(a[15:0]),.b(sub1[15:0]),.cin(sub),.cout(cout1),.sum(sum1));
+    add16 instances2(.a(a[31:16]),.b(sub1[31:16]),.cin(cout1),.cout(cout2),.sum(sum2));
+    assign sum = {sum2,sum1};
+
+endmodule

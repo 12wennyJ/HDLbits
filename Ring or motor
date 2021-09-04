@@ -1,0 +1,15 @@
+module top_module (
+    input ring,
+    input vibrate_mode,
+    output ringer,       // Make sound
+    output motor         // Vibrate
+);
+
+    //分析题目发现，当ring输入时，可能出现ring或者motor
+    //但是当vibrate_mode=1的时候motor出现，等于0的时候是输出ring
+    //得出，当ring和vibrate_mode同时为高时一定会触发motor
+    
+    assign motor = ring & vibrate_mode;
+    assign ringer = ring & (!vibrate_mode);
+    
+endmodule
